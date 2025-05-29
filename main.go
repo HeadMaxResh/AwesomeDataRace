@@ -10,8 +10,8 @@ func main() {
 	var wg sync.WaitGroup
 
 	// Количество горутин и итераций
-	goroutines := 2
-	iterations := 1000
+	goroutines := 100
+	iterations := 10000
 
 	wg.Add(goroutines)
 
