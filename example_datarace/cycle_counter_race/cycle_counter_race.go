@@ -1,16 +1,18 @@
-package main
+package cycle_counter_race
 
 import "sync"
 
+// Гонка на счетчике цикла
+
 // Примитивы
-func RacePrimitive() int {
+func RacePrimitive(goroutines, iterations int) int {
 	var wg sync.WaitGroup
 	var count int
-	for i := 0; i < 2; i++ {
+	for i := 0; i < goroutines; i++ {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			for j := 0; j < 1000; j++ {
+			for j := 0; j < iterations; j++ {
 				count++
 			}
 		}()
@@ -28,14 +30,14 @@ func (c *Counter) Increment() {
 	c.value++
 }
 
-func RaceObject() int {
+func RaceObject(goroutines, iterations int) int {
 	var wg sync.WaitGroup
 	counter := &Counter{}
-	for i := 0; i < 2; i++ {
+	for i := 0; i < goroutines; i++ {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			for j := 0; j < 1000; j++ {
+			for j := 0; j < iterations; j++ {
 				counter.Increment()
 			}
 		}()
@@ -53,14 +55,14 @@ type A struct {
 	B // Композиция
 }
 
-func RaceComposition() int {
+func RaceComposition(goroutines, iterations int) int {
 	var wg sync.WaitGroup
 	a := &A{}
-	for i := 0; i < 2; i++ {
+	for i := 0; i < goroutines; i++ {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			for j := 0; j < 1000; j++ {
+			for j := 0; j < iterations; j++ {
 				a.value++
 			}
 		}()
@@ -74,15 +76,15 @@ type C struct {
 	b *B
 }
 
-func RaceAggregation() int {
+func RaceAggregation(goroutines, iterations int) int {
 	var wg sync.WaitGroup
 	b := &B{}
 	c := &C{b: b}
-	for i := 0; i < 2; i++ {
+	for i := 0; i < goroutines; i++ {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			for j := 0; j < 1000; j++ {
+			for j := 0; j < iterations; j++ {
 				c.b.value++
 			}
 		}()
@@ -92,14 +94,14 @@ func RaceAggregation() int {
 }
 
 // Ссылочные типы (срез)
-func RaceSlice() []int {
+func RaceSlice(goroutines, iterations int) []int {
 	var wg sync.WaitGroup
 	slice := make([]int, 0)
-	for i := 0; i < 2; i++ {
+	for i := 0; i < goroutines; i++ {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			for j := 0; j < 1000; j++ {
+			for j := 0; j < iterations; j++ {
 				slice = append(slice, j)
 			}
 		}()
