@@ -28,11 +28,11 @@ func RaceUnprotectedPrimitive(goroutines, iterations int) int {
 }
 
 // пример из текста
-type Watchdog struct{ last int64 }
+type Watchdog struct{ Last int64 }
 
 func (w *Watchdog) KeepAlive() {
 	// Первый конфликтующий доступ.
-	w.last = time.Now().UnixNano()
+	w.Last = time.Now().UnixNano()
 }
 
 func (w *Watchdog) Start() {
@@ -40,7 +40,7 @@ func (w *Watchdog) Start() {
 		for {
 			time.Sleep(time.Second)
 			// Второй конфликтующий доступ.
-			if w.last < time.Now().Add(-10*time.Second).UnixNano() {
+			if w.Last < time.Now().Add(-10*time.Second).UnixNano() {
 				fmt.Println("No keepalives for 10 seconds. Dying.")
 				os.Exit(1)
 			}
