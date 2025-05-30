@@ -7,16 +7,13 @@ import "sync"
 // Примитивы
 func RacePrimitive(goroutines, iterations int) int {
 	var wg sync.WaitGroup
-	var mu = sync.Mutex{}
 	var count int
 	for i := 0; i < goroutines; i++ {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
 			for j := 0; j < iterations; j++ {
-				mu.Lock()
 				count++
-				mu.Unlock()
 			}
 		}()
 	}
