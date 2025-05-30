@@ -1,12 +1,14 @@
 package example
 
-import "sync"
+import (
+	"awesomeDataRace/example_datarace/my_waitgroup"
+)
 
 // Гонка на счетчике цикла
 
 // Примитивы
 func RacePrimitive(goroutines, iterations int) int {
-	var wg sync.WaitGroup
+	var wg *my_waitgroup.MyWaitGroup
 	var count int
 	for i := 0; i < goroutines; i++ {
 		wg.Add(1)
@@ -31,7 +33,7 @@ func (c *Counter) Increment() {
 }
 
 func RaceObject(goroutines, iterations int) int {
-	var wg sync.WaitGroup
+	var wg *my_waitgroup.MyWaitGroup
 	counter := &Counter{}
 	for i := 0; i < goroutines; i++ {
 		wg.Add(1)
@@ -56,7 +58,7 @@ type A struct {
 }
 
 func RaceComposition(goroutines, iterations int) int {
-	var wg sync.WaitGroup
+	var wg *my_waitgroup.MyWaitGroup
 	a := &A{}
 	for i := 0; i < goroutines; i++ {
 		wg.Add(1)
@@ -77,7 +79,7 @@ type C struct {
 }
 
 func RaceAggregation(goroutines, iterations int) int {
-	var wg sync.WaitGroup
+	var wg *my_waitgroup.MyWaitGroup
 	b := &B{}
 	c := &C{b: b}
 	for i := 0; i < goroutines; i++ {
@@ -95,7 +97,7 @@ func RaceAggregation(goroutines, iterations int) int {
 
 // Ссылочные типы (срез)
 func RaceSlice(goroutines, iterations int) []int {
-	var wg sync.WaitGroup
+	var wg *my_waitgroup.MyWaitGroup
 	slice := make([]int, 0)
 	for i := 0; i < goroutines; i++ {
 		wg.Add(1)

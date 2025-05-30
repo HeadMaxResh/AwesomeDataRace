@@ -1,16 +1,16 @@
 package example
 
 import (
+	"awesomeDataRace/example_datarace/my_waitgroup"
 	"fmt"
 	"os"
-	"sync"
 	"time"
 )
 
 // Примитивная незащищенная переменная
 
 func RaceUnprotectedPrimitive(goroutines, iterations int) int {
-	var wg sync.WaitGroup
+	var wg *my_waitgroup.MyWaitGroup
 	count := 0
 
 	for i := 0; i < goroutines; i++ {

@@ -2,15 +2,16 @@ package test
 
 import (
 	"awesomeDataRace/example_datarace/inventory_datarace/example"
-	"sync"
+	"awesomeDataRace/example_datarace/my_mutex"
+	"awesomeDataRace/example_datarace/my_waitgroup"
 	"testing"
 )
 
 func TestInventory_ConcurrentFailWhenNotEnoughStock(t *testing.T) {
 	inv := &example.Inventory{Stock: 5}
-	var wg sync.WaitGroup
+	var wg *my_waitgroup.MyWaitGroup
 	var successCount int
-	var mu sync.Mutex
+	var mu *my_mutex.MyMutex
 
 	// 10 клиентов пытаются купить по 1 (доступно только 5)
 	for i := 0; i < 10; i++ {
@@ -37,7 +38,7 @@ func TestInventory_ConcurrentFailWhenNotEnoughStock(t *testing.T) {
 
 func TestInventory_ConcurrentPurchasesRace(t *testing.T) {
 	inv := &example.Inventory{Stock: 100}
-	var wg sync.WaitGroup
+	var wg *my_waitgroup.MyWaitGroup
 
 	for i := 0; i < 50; i++ {
 		wg.Add(1)
