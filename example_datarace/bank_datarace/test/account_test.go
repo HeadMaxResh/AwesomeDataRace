@@ -122,7 +122,7 @@ func TestAccount_DataCorruption(t *testing.T) {
 
 	wg.Wait()
 
-	// Теоретически должен остаться 100 (нулевой баланс изменения)
+	// должен остаться 100
 	// но при гонке может быть любое значение
 	if acc.Balance != 100 {
 		t.Errorf("Expected balance 100 after concurrent ops, got %d", acc.Balance)
