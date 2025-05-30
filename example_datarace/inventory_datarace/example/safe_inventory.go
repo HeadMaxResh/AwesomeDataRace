@@ -1,13 +1,13 @@
 package example
 
 import (
-	"sync"
+	"awesomeDataRace/example_datarace/my_mutex"
 	"time"
 )
 
 type SafeInventory struct {
 	Stock int
-	mu    sync.Mutex
+	mu    *my_mutex.MyMutex
 }
 
 func (inv *SafeInventory) Purchase(quantity int) bool {

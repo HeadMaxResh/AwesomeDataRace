@@ -2,13 +2,14 @@ package test
 
 import (
 	"awesomeDataRace/example_datarace/bank_datarace/example"
-	"sync"
+	"awesomeDataRace/example_datarace/my_mutex"
+	"awesomeDataRace/example_datarace/my_waitgroup"
 	"testing"
 )
 
 func TestSafeAccount_WithdrawAndDepositRace(t *testing.T) {
 	acc := &example.SafeAccount{ID: 1, Balance: 1000}
-	var wg sync.WaitGroup
+	var wg *my_waitgroup.MyWaitGroup
 
 	for i := 0; i < 10000; i++ {
 		wg.Add(2)
@@ -32,9 +33,9 @@ func TestSafeAccount_WithdrawAndDepositRace(t *testing.T) {
 
 func TestSafeAccount_MultipleWithdrawals(t *testing.T) {
 	acc := &example.SafeAccount{ID: 1, Balance: 100}
-	var wg sync.WaitGroup
+	var wg *my_waitgroup.MyWaitGroup
 	failures := 0
-	var mu sync.Mutex
+	var mu *my_mutex.MyMutex
 
 	for i := 0; i < 10000; i++ {
 		wg.Add(1)
@@ -60,7 +61,7 @@ func TestSafeAccount_MultipleWithdrawals(t *testing.T) {
 
 func TestSafeAccount_ConcurrentDeposits(t *testing.T) {
 	acc := &example.SafeAccount{ID: 1, Balance: 0}
-	var wg sync.WaitGroup
+	var wg *my_waitgroup.MyWaitGroup
 
 	for i := 0; i < 1000; i++ {
 		wg.Add(1)
@@ -79,7 +80,7 @@ func TestSafeAccount_ConcurrentDeposits(t *testing.T) {
 func TestSafeAccount_TransferRace(t *testing.T) {
 	acc1 := &example.SafeAccount{ID: 1, Balance: 1000}
 	acc2 := &example.SafeAccount{ID: 2, Balance: 1000}
-	var wg sync.WaitGroup
+	var wg *my_waitgroup.MyWaitGroup
 
 	for i := 0; i < 1000; i++ {
 		wg.Add(2)
@@ -105,7 +106,7 @@ func TestSafeAccount_TransferRace(t *testing.T) {
 
 func TestSafeAccount_DataConsistency(t *testing.T) {
 	acc := &example.SafeAccount{ID: 1, Balance: 100}
-	var wg sync.WaitGroup
+	var wg *my_waitgroup.MyWaitGroup
 
 	for i := 0; i < 1000; i++ {
 		wg.Add(2)

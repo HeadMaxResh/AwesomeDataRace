@@ -1,14 +1,14 @@
 package example
 
 import (
-	"sync"
+	"awesomeDataRace/example_datarace/my_mutex"
 	"time"
 )
 
 type SafeAccount struct {
 	ID      int
 	Balance int
-	mu      sync.Mutex
+	mu      *my_mutex.MyMutex
 }
 
 func (a *SafeAccount) Deposit(amount int) {

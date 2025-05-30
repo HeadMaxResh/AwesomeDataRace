@@ -1,14 +1,14 @@
 package example
 
 import (
+	"awesomeDataRace/example_datarace/my_waitgroup"
 	"os"
-	"sync"
 )
 
 // Случайно разделяемая переменная
 
 func RaceAccidentalSharing(goroutines, iterations int) int {
-	var wg sync.WaitGroup
+	var wg *my_waitgroup.MyWaitGroup
 	var count int
 
 	for i := 0; i < goroutines; i++ {

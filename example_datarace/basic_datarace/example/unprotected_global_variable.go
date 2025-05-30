@@ -1,8 +1,8 @@
 package example
 
 import (
+	"awesomeDataRace/example_datarace/my_waitgroup"
 	"net"
-	"sync"
 )
 
 // Незащищенная глобальная переменная
@@ -10,7 +10,7 @@ import (
 var globalCount int
 
 func RaceGlobal(goroutines, iterations int) int {
-	var wg sync.WaitGroup
+	var wg *my_waitgroup.MyWaitGroup
 
 	globalCount = 0
 
