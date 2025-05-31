@@ -1,0 +1,22 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Output of `go build`
+*.out
+
+# Test binary
+*.test
+
+# Dependency directories (if used)
+vendor/
+
+# IDE config
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
